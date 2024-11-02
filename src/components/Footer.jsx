@@ -3,6 +3,17 @@ import { motion } from "framer-motion";
 import { Github, Linkedin, Coffee } from "lucide-react";
 
 const Footer = ({ onOpenDocs }) => {
+  // Function to handle local development links
+  const handleExamplesClick = (e) => {
+    e.preventDefault();
+    onOpenDocs(); // Show docs modal which contains examples
+  };
+
+  const handleSupportClick = (e) => {
+    e.preventDefault();
+    window.open("https://github.com/alexfrontendfr/api-forge/issues", "_blank");
+  };
+
   return (
     <motion.footer
       initial={{ opacity: 0 }}
@@ -31,24 +42,20 @@ const Footer = ({ onOpenDocs }) => {
                 </button>
               </li>
               <li>
-                <a
-                  href="https://github.com/alexfrontendfr/api-forge#examples"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={handleExamplesClick}
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   Examples
-                </a>
+                </button>
               </li>
               <li>
-                <a
-                  href="https://github.com/alexfrontendfr/api-forge/issues"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={handleSupportClick}
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   Support
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -59,10 +66,23 @@ const Footer = ({ onOpenDocs }) => {
               <motion.a
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                href="https://github.com/alexfrontendfr/api-forge"
+                href={
+                  process.env.NODE_ENV === "production"
+                    ? "https://github.com/alexfrontendfr/api-forge"
+                    : "#"
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white transition-colors"
+                onClick={(e) => {
+                  if (process.env.NODE_ENV !== "production") {
+                    e.preventDefault();
+                    window.open(
+                      "https://github.com/alexfrontendfr/api-forge",
+                      "_blank"
+                    );
+                  }
+                }}
               >
                 <Github size={24} />
               </motion.a>

@@ -15,6 +15,7 @@ import SettingsModal from "./components/Settings/SettingsModal";
 import { useSettings } from "./contexts/SettingsContext";
 
 const App = () => {
+  // States
   const { settings } = useSettings();
   const [activeTab, setActiveTab] = useState("request");
   const [response, setResponse] = useState(null);
@@ -24,6 +25,7 @@ const App = () => {
   const [isDocsOpen, setIsDocsOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
+  // Load history from localStorage on mount
   useEffect(() => {
     if (settings.saveHistory) {
       const savedHistory = localStorage.getItem("requestHistory");
@@ -33,6 +35,20 @@ const App = () => {
     }
   }, [settings.saveHistory]);
 
+  // Save history to localStorage when it changes
+  useEffect(() => {
+    if (settings.saveHistory) {
+      localStorage.setItem("requestHistory", JSON.stringify(history));
+    }
+  }, [history, settings.saveHistory]);
+
+  // Modal handlers
+  const handleOpenDocs = () => setIsDocsOpen(true);
+  const handleCloseDocs = () => setIsDocsOpen(false);
+  const handleOpenSettings = () => setIsSettingsOpen(true);
+  const handleCloseSettings = () => setIsSettingsOpen(false);
+
+  // Response handlers
   const handleResponse = (data, requestDetails) => {
     setResponse(data);
     setLoading(false);
@@ -46,7 +62,6 @@ const App = () => {
       };
       const newHistory = [historyItem, ...history.slice(0, 9)];
       setHistory(newHistory);
-      localStorage.setItem("requestHistory", JSON.stringify(newHistory));
     }
 
     toast.success("Request successful!");
@@ -65,6 +80,7 @@ const App = () => {
     toast.success("History cleared");
   };
 
+  // Tab button component
   const TabButton = ({ id, label, icon: Icon }) => (
     <motion.button
       whileHover={{ scale: 1.02 }}
@@ -80,16 +96,18 @@ const App = () => {
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 to-gray-800 text-white">
+    <div
+      className={`min-h-screen flex flex-col ${
+        settings.theme === "dark" ? "dark" : ""
+      } bg-gradient-to-br from-gray-900 to-gray-800 text-white`}
+    >
       <Toaster position="top-right" />
 
-      <Header
-        onOpenDocs={() => setIsDocsOpen(true)}
-        onOpenSettings={() => setIsSettingsOpen(true)}
-      />
+      <Header onOpenDocs={handleOpenDocs} onOpenSettings={handleOpenSettings} />
 
       <main className="container mx-auto px-4 py-8 flex-grow">
         <div className="flex flex-col gap-6">
+          {/* Tab Navigation */}
           <nav className="flex gap-2 overflow-x-auto pb-2">
             <TabButton id="request" label="Request" icon={Send} />
             <TabButton id="compare" label="Compare" icon={GitCompare} />
@@ -97,6 +115,7 @@ const App = () => {
             <TabButton id="schema" label="Schema" icon={FileJson} />
           </nav>
 
+          {/* Main Content */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -108,6 +127,7 @@ const App = () => {
             }`}
           >
             <AnimatePresence mode="wait">
+              {/* Request Tab */}
               {activeTab === "request" && (
                 <motion.div
                   key="request"
@@ -124,13 +144,17 @@ const App = () => {
                   {settings.saveHistory && (
                     <ResponseHistory
                       history={history}
-                      onSelect={(item) => setResponse(item.response)}
+                      onSelect={(item) => {
+                        setResponse(item.response);
+                        toast.success("Historical response loaded");
+                      }}
                       onClear={clearHistory}
                     />
                   )}
                 </motion.div>
               )}
 
+              {/* Compare Tab */}
               {activeTab === "compare" && (
                 <motion.div
                   key="compare"
@@ -138,10 +162,14 @@ const App = () => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  <ResponseCompare currentResponse={response} />
+                  <ResponseCompare
+                    currentResponse={response}
+                    history={history}
+                  />
                 </motion.div>
               )}
 
+              {/* Mock API Tab */}
               {activeTab === "mock" && (
                 <motion.div
                   key="mock"
@@ -149,10 +177,16 @@ const App = () => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  <MockAPI />
+                  <MockAPI
+                    onGenerate={(mockResponse) => {
+                      setResponse(mockResponse);
+                      toast.success("Mock data generated");
+                    }}
+                  />
                 </motion.div>
               )}
 
+              {/* Schema Tab */}
               {activeTab === "schema" && (
                 <motion.div
                   key="schema"
@@ -160,11 +194,21 @@ const App = () => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                 >
-                  <SchemaValidator response={response} />
+                  <SchemaValidator
+                    response={response}
+                    onValidationComplete={(result) => {
+                      if (result.valid) {
+                        toast.success("Schema validation passed");
+                      } else {
+                        toast.error("Schema validation failed");
+                      }
+                    }}
+                  />
                 </motion.div>
               )}
             </AnimatePresence>
 
+            {/* Response View (always visible) */}
             <div className="space-y-6">
               <ResponseView
                 response={response}
@@ -178,14 +222,21 @@ const App = () => {
         </div>
       </main>
 
-      <Footer />
+      <Footer onOpenDocs={handleOpenDocs} />
 
-      <DocsModal isOpen={isDocsOpen} onClose={() => setIsDocsOpen(false)} />
+      {/* Modals */}
+      <AnimatePresence>
+        {isDocsOpen && (
+          <DocsModal isOpen={isDocsOpen} onClose={handleCloseDocs} />
+        )}
 
-      <SettingsModal
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-      />
+        {isSettingsOpen && (
+          <SettingsModal
+            isOpen={isSettingsOpen}
+            onClose={handleCloseSettings}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

@@ -3,11 +3,22 @@ import { motion } from "framer-motion";
 import { Github, Settings, HelpCircle } from "lucide-react";
 
 const Header = ({ onOpenDocs, onOpenSettings }) => {
+  const handleGithubClick = (e) => {
+    if (process.env.NODE_ENV !== "production") {
+      e.preventDefault();
+      window.open("https://github.com/alexfrontendfr/api-forge", "_blank");
+    }
+  };
+
   const navItems = [
     {
       icon: <Github />,
       label: "GitHub",
-      href: "https://github.com/alexfrontendfr/api-forge",
+      href:
+        process.env.NODE_ENV === "production"
+          ? "https://github.com/alexfrontendfr/api-forge"
+          : "#",
+      onClick: handleGithubClick,
       external: true,
     },
     {
@@ -24,10 +35,17 @@ const Header = ({ onOpenDocs, onOpenSettings }) => {
 
   return (
     <header className="relative overflow-hidden">
-      {/* Updated gradient colors to be lighter */}
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-400/30 to-purple-400/30 animate-gradient" />
+      {/* Background gradient with lower z-index */}
+      <div
+        className="absolute inset-0 bg-gradient-to-r from-blue-400/30 to-purple-400/30 animate-gradient pointer-events-none"
+        style={{ zIndex: 0 }}
+      />
 
-      <div className="container mx-auto px-4 py-8">
+      {/* Content with higher z-index */}
+      <div
+        className="container mx-auto px-4 py-8 relative"
+        style={{ zIndex: 10 }}
+      >
         <nav className="flex justify-between items-center mb-8">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -51,6 +69,7 @@ const Header = ({ onOpenDocs, onOpenSettings }) => {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={item.onClick}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-colors"
