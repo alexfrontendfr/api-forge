@@ -1,7 +1,7 @@
 {
   "name": "api-forge",
+  "private": true,
   "version": "1.0.0",
-  "description": "Modern API Response Formatter with beautiful UI for frontend portfolios",
   "type": "module",
   "scripts": {
     "dev": "vite",

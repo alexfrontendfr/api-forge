@@ -1,31 +1,16 @@
-# API Forge 🚀
+# API Forge
 
-A modern, powerful API testing and response formatting tool built for frontend developers. With API Forge, you can easily test endpoints, validate responses, and generate mock APIs - all with a beautiful, intuitive interface.
+Modern API testing tool with response formatting, schema validation, and mock API generation.
 
-![API Forge Interface](./public/screenshot.png)
+## Quick Setup Guide
 
-## ✨ Features
-
-- 🎨 **Beautiful Interface**: Dark mode by default with smooth animations
-- 🔍 **API Testing**: Test any endpoint with custom headers and request bodies
-- 📊 **Response Formatting**: Auto-format and syntax highlight JSON responses
-- ✅ **Schema Validation**: Validate responses against JSON schemas
-- 🔄 **Response Comparison**: Compare responses with visual diff highlighting
-- 🎭 **Mock API Generation**: Create mock APIs with customizable templates
-- 💾 **Export Options**: Save responses as JSON, HTML, or Markdown
-- 📱 **Responsive Design**: Works seamlessly on all devices
-
-## 🔥 Live Demo
-
-Try it out: [API Forge Live Demo](https://alexfrontendfr.github.io/api-forge)
-
-## 🛠️ Quick Start
+### 1. Local Development
 
 ```bash
-# Clone the repository
+# Clone repository
 git clone https://github.com/alexfrontendfr/api-forge.git
 
-# Enter the project directory
+# Go to project folder
 cd api-forge
 
 # Install dependencies
@@ -35,71 +20,63 @@ npm install
 npm run dev
 ```
 
-## 📖 Usage Examples
-
-### Basic API Testing
+### 2. Deploy to GitHub Pages
 
 ```bash
-# Test a GET request
-1. Enter URL: https://api.example.com/users
-2. Select GET method
-3. Add headers (if needed)
-4. Click "Send Request"
-```
+# 1. Create new repository on GitHub named 'api-forge'
 
-### Schema Validation
+# 2. Initialize git locally
+git init
 
-```json
-{
-  "type": "object",
-  "properties": {
-    "id": { "type": "number" },
-    "name": { "type": "string" }
-  }
-}
-```
+# 3. Add all files
+git add .
 
-### Mock API Generation
+# 4. Commit files
+git commit -m "Initial commit"
 
-```javascript
-// Generated mock API endpoint
-app.get("/api/users", (req, res) => {
-  res.json([
-    { id: 1, name: "John Doe" },
-    { id: 2, name: "Jane Smith" },
-  ]);
-});
-```
+# 5. Add remote repository
+git remote add origin https://github.com/alexfrontendfr/api-forge.git
 
-## 🚀 Deployment
+# 6. Push to GitHub
+git push -u origin main
 
-Deploy to GitHub Pages in one command:
-
-```bash
+# 7. Deploy to GitHub Pages
 npm run deploy
 ```
 
-## 🤝 Contributing
+Your site will be live at: `https://[your-github-username].github.io/api-forge`
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+## Features
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+- Test API endpoints with custom headers and request bodies
+- Format and validate JSON responses
+- Generate mock APIs
+- Compare API responses
+- Export responses in multiple formats
 
-## 📝 License
+## Testing Examples
 
-Distributed under the MIT License. See `LICENSE` for more information.
+### Test Public API
 
-## 👤 Author
+```
+URL: https://jsonplaceholder.typicode.com/posts/1
+Method: GET
+```
 
-**Alex Iulian**
+### Test with Headers
+
+```
+URL: https://api.github.com/user
+Method: GET
+Headers:
+  Authorization: Bearer YOUR_GITHUB_TOKEN
+```
+
+## Contact
 
 - GitHub: [@alexfrontendfr](https://github.com/alexfrontendfr)
-- LinkedIn: [@alex-iulian-dev](https://www.linkedin.com/in/alex-iulian-dev/)
+- LinkedIn: [Alex Iulian](https://www.linkedin.com/in/alex-iulian-dev/)
 
-## ⭐️ Support
+## License
 
-If you found this project useful, please consider giving it a star on GitHub and sharing it with your network!
+MIT License - feel free to use this project for your portfolio!
