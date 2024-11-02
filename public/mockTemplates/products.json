@@ -1,0 +1,60 @@
+{
+  "template": "products",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "number",
+        "description": "Product identifier"
+      },
+      "name": {
+        "type": "string",
+        "description": "Product name"
+      },
+      "price": {
+        "type": "number",
+        "description": "Product price"
+      },
+      "description": {
+        "type": "string",
+        "description": "Product description"
+      },
+      "category": {
+        "type": "string",
+        "description": "Product category"
+      },
+      "inventory": {
+        "type": "object",
+        "properties": {
+          "inStock": {
+            "type": "boolean"
+          },
+          "quantity": {
+            "type": "number"
+          }
+        }
+      },
+      "ratings": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        }
+      }
+    },
+    "required": ["id", "name", "price"]
+  },
+  "examples": [
+    {
+      "id": 1,
+      "name": "Sample Product",
+      "price": 29.99,
+      "description": "A high-quality product description",
+      "category": "Electronics",
+      "inventory": {
+        "inStock": true,
+        "quantity": 100
+      },
+      "ratings": [4.5, 5, 4.8]
+    }
+  ]
+}

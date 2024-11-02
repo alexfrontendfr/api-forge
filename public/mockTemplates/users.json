@@ -1,0 +1,59 @@
+{
+  "template": "users",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "number",
+        "description": "Unique identifier"
+      },
+      "username": {
+        "type": "string",
+        "description": "User's username"
+      },
+      "email": {
+        "type": "string",
+        "format": "email",
+        "description": "User's email address"
+      },
+      "profile": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      },
+      "isActive": {
+        "type": "boolean",
+        "description": "User account status"
+      },
+      "createdAt": {
+        "type": "string",
+        "format": "date-time"
+      }
+    },
+    "required": ["id", "username", "email"]
+  },
+  "examples": [
+    {
+      "id": 1,
+      "username": "john_doe",
+      "email": "john@example.com",
+      "profile": {
+        "firstName": "John",
+        "lastName": "Doe",
+        "avatar": "https://api.example.com/avatars/1.jpg"
+      },
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00Z"
+    }
+  ]
+}
