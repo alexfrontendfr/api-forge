@@ -1,0 +1,55 @@
+{
+  "template": "posts",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "number",
+        "description": "Post identifier"
+      },
+      "title": {
+        "type": "string",
+        "description": "Post title"
+      },
+      "content": {
+        "type": "string",
+        "description": "Post content"
+      },
+      "author": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "tags": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "publishedAt": {
+        "type": "string",
+        "format": "date-time"
+      }
+    },
+    "required": ["id", "title", "content"]
+  },
+  "examples": [
+    {
+      "id": 1,
+      "title": "Sample Blog Post",
+      "content": "This is the content of the blog post...",
+      "author": {
+        "id": 1,
+        "name": "John Doe"
+      },
+      "tags": ["technology", "web", "api"],
+      "publishedAt": "2024-01-01T00:00:00Z"
+    }
+  ]
+}
